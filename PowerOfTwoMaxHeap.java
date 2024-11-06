@@ -1,7 +1,5 @@
 
 // Power of Two Max Heap Data Structure
-import java.util.Arrays;
-import java.util.Scanner;
 
 // Requirements for Power of two max heap
 
@@ -34,13 +32,18 @@ public class PowerOfTwoMaxHeap {
 
     // Maximum possible size of
     // the max heap
-    int maxSize = (int) Math.pow(2, capSizeOfChildren) * 2;
+    double maxSize;
 
     // Constructor
     public PowerOfTwoMaxHeap(int capSizeOfChildren) {
         this.capSizeOfChildren = capSizeOfChildren;
-        arr = new int[maxSize];
+        maxSize = Math.pow(2, capSizeOfChildren) * 2;
+        arr = new int[(int) maxSize];
         heapSize = 0;
+    }
+
+    public int parentItem(int index) {
+        return (index - 1) / (int) Math.pow(2, capSizeOfChildren);
     }
 
     public void insert(int item) {
@@ -51,10 +54,19 @@ public class PowerOfTwoMaxHeap {
         }
 
         // New item is inserted at the
-        // of arr.
+        // end of arr.
         heapSize++;
         int i = heapSize - 1;
         arr[i] = item;
+
+        // Verify max heap property
+        // order of arr
+        while (i != 0 && arr[parentItem(i)] < arr[i]) {
+            int temp = arr[i];
+            arr[i] = arr[parentItem(i)];
+            arr[parentItem(i)] = temp;
+            i = parentItem(i);
+        }
     }
 
     public void popMax(int item) {
@@ -63,6 +75,22 @@ public class PowerOfTwoMaxHeap {
 
     public static void main(String[] args) {
         // System.out.println("Hello World");
-        // PowerOfTwoMaxHeap heap = new PowerOfTwoMaxHeap();
+        PowerOfTwoMaxHeap heap = new PowerOfTwoMaxHeap(2);
+        heap.insert(40);
+        heap.insert(59);
+        heap.insert(10);
+        heap.insert(2);
+        heap.insert(13);
+        heap.insert(12);
+        heap.insert(28);
+        heap.insert(52);
+
+        System.out.print("Max Heap: ");
+
+        for (int num : heap.arr) {
+            System.out.print(num + " ");
+        }
+
+        System.out.println("\nHeap Size: " + heap.heapSize);
     }
 }
