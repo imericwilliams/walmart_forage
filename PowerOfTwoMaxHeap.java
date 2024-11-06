@@ -69,12 +69,35 @@ public class PowerOfTwoMaxHeap {
         }
     }
 
-    public void popMax(int item) {
+    public int popMax() {
+        // Check the heap is not empty
+        if (heapSize == 0) {
+            System.out.println("\nError: Cannot remove from heap because it is empty.");
+            return Integer.MIN_VALUE;
+        }
+        // Only one item in the heap
+        if (heapSize == 1) {
+            heapSize--;
+            return arr[0];
+        }
 
+        // Store the max itm of heap
+        // and decrement the index of
+        // the remaining items in heap
+        int maxItem = arr[0];
+        for (int i = 1; i < heapSize; i++) {
+            arr[i - 1] = arr[i];
+            if (i == heapSize - 1) {
+                arr[i] = 0;
+            }
+        }
+        heapSize--;
+
+        return maxItem;
     }
 
     public static void main(String[] args) {
-        // System.out.println("Hello World");
+        // Insert new items to max heap
         PowerOfTwoMaxHeap heap = new PowerOfTwoMaxHeap(2);
         heap.insert(40);
         heap.insert(59);
@@ -84,6 +107,17 @@ public class PowerOfTwoMaxHeap {
         heap.insert(12);
         heap.insert(28);
         heap.insert(52);
+
+        System.out.print("\nMax Heap: ");
+
+        for (int num : heap.arr) {
+            System.out.print(num + " ");
+        }
+
+        System.out.println("\nHeap Size: " + heap.heapSize);
+
+        // Remote the max from max heap
+        System.out.println("Previous Root of Max heap: " + heap.popMax());
 
         System.out.print("Max Heap: ");
 
